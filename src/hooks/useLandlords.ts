@@ -4,6 +4,16 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { Landlord } from '@/components/landlords/LandlordsTable';
 
+// Define the shape of the profile data returned from Supabase
+type ProfileData = {
+  id: string;
+  full_name: string | null;
+  created_at: string;
+  role: string;
+  tenant_count?: Array<{ count: number }>;
+  [key: string]: any; // Allow for other properties
+};
+
 export const useLandlords = (isAdmin: boolean) => {
   const { toast } = useToast();
   const [landlords, setLandlords] = useState<Landlord[]>([]);
@@ -29,11 +39,11 @@ export const useLandlords = (isAdmin: boolean) => {
       
       if (usersError) throw usersError;
       
-      // Ensure data is not null before mapping
+      // Ensure data is not null before mapping and properly cast it to the expected type
       if (data && Array.isArray(data)) {
-        const landlordData = data.map(profile => {
+        const landlordData = (data as ProfileData[]).map(profile => {
           // Find matching user to get email
-          const user = usersData?.users.find(u => u.id === profile.id);
+          const user = usersData?.users?.find(u => u.id === profile.id);
           
           // Handle tenant_count safely, ensuring it's always a number
           let tenantCount = 0;
