@@ -10,8 +10,15 @@ type ProfileData = {
   full_name: string | null;
   created_at: string;
   role: string;
-  tenant_count?: Array<{ count: number }>;
+  tenant_count?: Array<{ count: number }> | any; // Make tenant_count more flexible to handle potential errors
   [key: string]: any; // Allow for other properties
+};
+
+// Define the shape of user data from auth.users
+type UserData = {
+  id: string;
+  email?: string;
+  [key: string]: any;
 };
 
 export const useLandlords = (isAdmin: boolean) => {
@@ -39,11 +46,15 @@ export const useLandlords = (isAdmin: boolean) => {
       
       if (usersError) throw usersError;
       
-      // Ensure data is not null before mapping and properly cast it to the expected type
+      // Ensure data is not null before mapping and properly handle data types
       if (data && Array.isArray(data)) {
-        const landlordData = (data as ProfileData[]).map(profile => {
+        // First cast to unknown then to ProfileData[] to avoid direct type conversion errors
+        const profileData = data as unknown as ProfileData[];
+        
+        const landlordData = profileData.map(profile => {
           // Find matching user to get email
-          const user = usersData?.users?.find(u => u.id === profile.id);
+          const users = usersData?.users as UserData[] | undefined;
+          const user = users?.find(u => u.id === profile.id);
           
           // Handle tenant_count safely, ensuring it's always a number
           let tenantCount = 0;
