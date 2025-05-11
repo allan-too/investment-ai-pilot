@@ -29,27 +29,33 @@ export const useLandlords = (isAdmin: boolean) => {
       
       if (usersError) throw usersError;
       
-      const landlordData = data?.map(profile => {
-        // Find matching user to get email
-        const user = usersData?.users.find(u => u.id === profile.id);
+      // Ensure data is not null before mapping
+      if (data && Array.isArray(data)) {
+        const landlordData = data.map(profile => {
+          // Find matching user to get email
+          const user = usersData?.users.find(u => u.id === profile.id);
+          
+          // Handle tenant_count safely, ensuring it's always a number
+          let tenantCount = 0;
+          if (profile.tenant_count && 
+              Array.isArray(profile.tenant_count) && 
+              profile.tenant_count.length > 0 && 
+              typeof profile.tenant_count[0].count === 'number') {
+            tenantCount = profile.tenant_count[0].count;
+          }
+          
+          return {
+            ...profile,
+            email: user?.email || 'Unknown',
+            tenant_count: tenantCount
+          };
+        }) as Landlord[];
         
-        // Handle tenant_count safely, ensuring it's always a number
-        let tenantCount = 0;
-        if (profile.tenant_count && 
-            Array.isArray(profile.tenant_count) && 
-            profile.tenant_count.length > 0 && 
-            typeof profile.tenant_count[0].count === 'number') {
-          tenantCount = profile.tenant_count[0].count;
-        }
-        
-        return {
-          ...profile,
-          email: user?.email || 'Unknown',
-          tenant_count: tenantCount
-        };
-      }) as Landlord[];
-      
-      setLandlords(landlordData || []);
+        setLandlords(landlordData);
+      } else {
+        // Handle the case where data is null or not an array
+        setLandlords([]);
+      }
     } catch (error: any) {
       console.error('Error fetching landlords:', error);
       toast({
