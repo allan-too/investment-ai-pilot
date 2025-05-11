@@ -16,6 +16,10 @@ import NotFound from "./pages/NotFound";
 import Properties from "./pages/Properties";
 import PropertyDetail from "./pages/PropertyDetail";
 import Upload from "./pages/Upload";
+import Settings from "./pages/Settings";
+import Analytics from "./pages/Analytics";
+import Landlords from "./pages/Landlords";
+import Tenants from "./pages/Tenants";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +42,11 @@ const App = () => (
                   <Dashboard />
                 </ProtectedRoute>
               } />
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
               <Route path="/properties" element={
                 <ProtectedRoute>
                   <Properties />
@@ -53,9 +62,26 @@ const App = () => (
                   <Upload />
                 </ProtectedRoute>
               } />
-              
-              {/* Redirect root to dashboard */}
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/settings" element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              } />
+              <Route path="/analytics" element={
+                <ProtectedRoute>
+                  <Analytics />
+                </ProtectedRoute>
+              } />
+              <Route path="/landlords" element={
+                <ProtectedRoute>
+                  <Landlords />
+                </ProtectedRoute>
+              } />
+              <Route path="/tenants" element={
+                <ProtectedRoute>
+                  <Tenants />
+                </ProtectedRoute>
+              } />
               
               {/* 404 */}
               <Route path="*" element={<NotFound />} />

@@ -12,16 +12,55 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Home, BarChart3, FilePlus, PieChart, Settings, Users } from 'lucide-react';
+import { 
+  Home, 
+  BarChart3, 
+  FilePlus, 
+  PieChart, 
+  Settings, 
+  Users, 
+  Building,
+  CreditCard,
+  User
+} from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 export const Sidebar = () => {
-  const menuItems = [
-    { to: '/', icon: Home, label: 'Dashboard' },
-    { to: '/properties', icon: BarChart3, label: 'Properties' },
-    { to: '/upload', icon: FilePlus, label: 'Upload Data' },
-    { to: '/analytics', icon: PieChart, label: 'Analytics' },
-    { to: '/settings', icon: Settings, label: 'Settings' },
-  ];
+  const { isAdmin, isLandlord, isTenant } = useAuth();
+  
+  // Define menu items based on user role
+  const getMenuItems = () => {
+    const commonItems = [
+      { to: '/', icon: Home, label: 'Dashboard' },
+      { to: '/settings', icon: Settings, label: 'Settings' },
+    ];
+    
+    if (isAdmin) {
+      return [
+        ...commonItems,
+        { to: '/landlords', icon: Building, label: 'Landlords' },
+        { to: '/analytics', icon: PieChart, label: 'Analytics' },
+      ];
+    } else if (isLandlord) {
+      return [
+        ...commonItems,
+        { to: '/properties', icon: Building, label: 'Properties' },
+        { to: '/tenants', icon: Users, label: 'Tenants' },
+        { to: '/upload', icon: FilePlus, label: 'Upload Data' },
+        { to: '/analytics', icon: PieChart, label: 'Analytics' },
+      ];
+    } else if (isTenant) {
+      return [
+        ...commonItems,
+        { to: '/payments', icon: CreditCard, label: 'Payments' },
+      ];
+    }
+    
+    // Default menu items if role is not determined yet
+    return commonItems;
+  };
+  
+  const menuItems = getMenuItems();
 
   return (
     <SidebarContainer>
@@ -62,11 +101,31 @@ export const Sidebar = () => {
 
         <div className="mt-auto border-t p-4">
           <div className="flex items-center gap-3 rounded-md px-3 py-2">
-            <Users className="h-4 w-4 text-realty-blue" />
-            <div className="text-sm">
-              <p className="font-medium">Team Access</p>
-              <p className="text-muted-foreground text-xs">Upgrade for team features</p>
-            </div>
+            {isLandlord ? (
+              <>
+                <CreditCard className="h-4 w-4 text-realty-blue" />
+                <div className="text-sm">
+                  <p className="font-medium">Subscription</p>
+                  <p className="text-muted-foreground text-xs">$20 per tenant</p>
+                </div>
+              </>
+            ) : isAdmin ? (
+              <>
+                <User className="h-4 w-4 text-realty-blue" />
+                <div className="text-sm">
+                  <p className="font-medium">Admin Access</p>
+                  <p className="text-muted-foreground text-xs">Full system access</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <User className="h-4 w-4 text-realty-blue" />
+                <div className="text-sm">
+                  <p className="font-medium">Tenant Portal</p>
+                  <p className="text-muted-foreground text-xs">View your rental details</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </SidebarContent>
