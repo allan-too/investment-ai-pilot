@@ -32,10 +32,20 @@ export const useLandlords = (isAdmin: boolean) => {
       const landlordData = data?.map(profile => {
         // Find matching user to get email
         const user = usersData?.users.find(u => u.id === profile.id);
+        
+        // Handle tenant_count safely, ensuring it's always a number
+        let tenantCount = 0;
+        if (profile.tenant_count && 
+            Array.isArray(profile.tenant_count) && 
+            profile.tenant_count.length > 0 && 
+            typeof profile.tenant_count[0].count === 'number') {
+          tenantCount = profile.tenant_count[0].count;
+        }
+        
         return {
           ...profile,
           email: user?.email || 'Unknown',
-          tenant_count: profile.tenant_count?.[0]?.count || 0
+          tenant_count: tenantCount
         };
       }) as Landlord[];
       

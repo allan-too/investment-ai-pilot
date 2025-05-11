@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
 
 export type PropertyData = {
-  id: string; // Changed from number to string to match UUID from database
+  id: string; // This should be a string to match UUID from database
   address: string;
   riskScore: number;
   roi: number;
