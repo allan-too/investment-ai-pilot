@@ -21,7 +21,9 @@ import {
   Users, 
   Building,
   CreditCard,
-  User
+  User,
+  Shield,
+  Database
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -39,7 +41,10 @@ export const Sidebar = () => {
       return [
         ...commonItems,
         { to: '/landlords', icon: Building, label: 'Landlords' },
+        { to: '/tenants', icon: Users, label: 'All Tenants' },
+        { to: '/properties', icon: Building, label: 'Properties' },
         { to: '/analytics', icon: PieChart, label: 'Analytics' },
+        { to: '/admin', icon: Shield, label: 'Admin Panel' },
       ];
     } else if (isLandlord) {
       return [
@@ -111,7 +116,7 @@ export const Sidebar = () => {
               </>
             ) : isAdmin ? (
               <>
-                <User className="h-4 w-4 text-realty-blue" />
+                <Shield className="h-4 w-4 text-realty-blue" />
                 <div className="text-sm">
                   <p className="font-medium">Admin Access</p>
                   <p className="text-muted-foreground text-xs">Full system access</p>

@@ -20,6 +20,7 @@ import Settings from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import Landlords from "./pages/Landlords";
 import Tenants from "./pages/Tenants";
+import AdminPanel from "./pages/AdminPanel";
 
 const queryClient = new QueryClient();
 
@@ -80,6 +81,11 @@ const App = () => (
               <Route path="/tenants" element={
                 <ProtectedRoute>
                   <Tenants />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <AdminPanel />
                 </ProtectedRoute>
               } />
               
