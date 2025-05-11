@@ -242,7 +242,7 @@ const LandlordDashboard = () => {
         const totalRev = tenants?.reduce((sum, tenant) => sum + (tenant.rent_amount || 0), 0) || 0;
         
         // Process property data
-        const formattedProperties = propertiesData?.map(prop => ({
+        const formattedProperties: PropertyData[] = propertiesData?.map(prop => ({
           id: prop.id,
           address: prop.address,
           riskScore: prop.risk_scores?.[0]?.total_score || 50,

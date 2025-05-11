@@ -67,10 +67,22 @@ const Landlords = () => {
 
       if (error) throw error;
       
-      setLandlords(data.map(d => ({
-        ...d,
-        tenant_count: d.tenant_count[0]?.count || 0
-      })));
+      // Additionally fetch emails from auth.users
+      const { data: usersData, error: usersError } = await supabase.auth.admin.listUsers();
+      
+      if (usersError) throw usersError;
+      
+      const landlordData = data?.map(profile => {
+        // Find matching user to get email
+        const user = usersData?.users.find(u => u.id === profile.id);
+        return {
+          ...profile,
+          email: user?.email || 'Unknown',
+          tenant_count: profile.tenant_count?.[0]?.count || 0
+        };
+      });
+      
+      setLandlords(landlordData || []);
     } catch (error: any) {
       console.error('Error fetching landlords:', error);
       toast({
