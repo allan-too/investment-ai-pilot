@@ -25,7 +25,7 @@ const Properties = () => {
     setTimeout(() => {
       const mockProperties = [
         {
-          id: 1,
+          id: "1", // Changed from number to string to match PropertyData type
           address: '123 Main Street, New York, NY 10001',
           riskScore: 25,
           roi: 12.5,
@@ -34,7 +34,7 @@ const Properties = () => {
           createdAt: '2023-03-15T12:00:00Z',
         },
         {
-          id: 2,
+          id: "2", // Changed from number to string
           address: '456 Park Avenue, Chicago, IL 60601',
           riskScore: 48,
           roi: 8.2,
@@ -43,7 +43,7 @@ const Properties = () => {
           createdAt: '2023-04-22T15:30:00Z',
         },
         {
-          id: 3,
+          id: "3", // Changed from number to string
           address: '789 Oak Drive, Los Angeles, CA 90001',
           riskScore: 72,
           roi: 5.1,
@@ -52,7 +52,7 @@ const Properties = () => {
           createdAt: '2023-05-10T09:15:00Z',
         },
         {
-          id: 4,
+          id: "4", // Changed from number to string
           address: '321 Pine Street, Seattle, WA 98101',
           riskScore: 35,
           roi: 9.7,
@@ -61,7 +61,7 @@ const Properties = () => {
           createdAt: '2023-02-05T10:20:00Z',
         },
         {
-          id: 5,
+          id: "5", // Changed from number to string
           address: '555 Maple Avenue, Boston, MA 02108',
           riskScore: 62,
           roi: 7.3,
@@ -70,7 +70,7 @@ const Properties = () => {
           createdAt: '2023-01-18T14:45:00Z',
         },
         {
-          id: 6,
+          id: "6", // Changed from number to string
           address: '777 Cedar Boulevard, Miami, FL 33101',
           riskScore: 19,
           roi: 14.2,

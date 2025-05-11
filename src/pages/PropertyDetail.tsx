@@ -19,7 +19,7 @@ const PropertyDetail = () => {
     setTimeout(() => {
       // In a real app, you'd fetch the property details from your API
       const mockProperty = {
-        id: parseInt(id || '0'),
+        id: id || "0", // Changed from parseInt to string to match PropertyData type
         address: id === '1' ? '123 Main Street, New York, NY 10001' : 
                 id === '2' ? '456 Park Avenue, Chicago, IL 60601' : 
                 '789 Oak Drive, Los Angeles, CA 90001',
