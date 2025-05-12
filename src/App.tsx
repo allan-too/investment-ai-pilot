@@ -74,7 +74,7 @@ const App = () => (
                 </ProtectedRoute>
               } />
               <Route path="/landlords" element={
-                <ProtectedRoute>
+                <ProtectedRoute adminOnly={true}>
                   <Landlords />
                 </ProtectedRoute>
               } />
@@ -84,7 +84,7 @@ const App = () => (
                 </ProtectedRoute>
               } />
               <Route path="/admin" element={
-                <ProtectedRoute>
+                <ProtectedRoute adminOnly={true}>
                   <AdminPanel />
                 </ProtectedRoute>
               } />
